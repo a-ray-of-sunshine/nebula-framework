@@ -15,6 +15,7 @@
 		<file.encoding>UTF-8</file.encoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<spring.version>4.3.10.RELEASE</spring.version>
 	</properties>
 
 	<dependencyManagement>
@@ -24,7 +25,21 @@
 				<artifactId>junit</artifactId>
 				<version>4.12</version>
 			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${spring.version}</version>
+				<exclusions>
+            		<exclusion>
+                		<groupId>commons-logging</groupId>
+                		<artifactId>commons-logging</artifactId>
+            		</exclusion>
+        		</exclusions>
+			</dependency>
 		</dependencies>
+
 	</dependencyManagement>
 
 </project>
