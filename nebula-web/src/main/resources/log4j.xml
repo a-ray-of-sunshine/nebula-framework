@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "https://raw.githubusercontent.com/apache/log4j/log4j-1.2.17/src/main/resources/org/apache/log4j/xml/log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%-5p] %d{HH:mm:ss} %x %m -> %l%n" />
+		</layout>
+
+		<!--限制输出级别 -->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMax" value="ERROR" />
+			<param name="LevelMin" value="TRACE" />
+		</filter>
+	</appender>
+
+	<appender name="FILE" class="org.apache.log4j.RollingFileAppender">
+		<param name="append" value="true" />
+        <param name="encoding" value="UTF-8" />
+		<param name="File" value="/tmp/logs/nebula-web.log"/>
+		<param name="MaxFileSize" value="1MB"/>
+		<param name="MaxBackupIndex" value="15"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%-5p] %d{yyyy-MM-dd HH:mm:ss,SSS} %l %x - %m%n" />
+		</layout>
+	</appender>
+
+	<!-- 配置特定包或者类的日志输出级别 -->
+	<logger name="org.springframework.beans.factory.xml">
+		<level value="INFO"></level>
+	</logger>
+
+	<root>
+		<priority value="INFO" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE"/>
+	</root>
+
+</log4j:configuration>
