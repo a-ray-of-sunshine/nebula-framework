@@ -14,6 +14,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.cxy.service.IUserService;
+import com.cxy.service.impl.UserService;
+
 @RunWith(SpringRunner.class)
 @ContextConfiguration("classpath:applicationContext.xml")
 public class DataSourceTest {
@@ -21,6 +24,9 @@ public class DataSourceTest {
 	@Autowired
 	private ApplicationContext applicationContext;
 
+	@Autowired
+	private IUserService userService;
+	
 	@Test
 	public void testConn(){
 		DataSource dataSource = applicationContext.getBean(DataSource.class);
@@ -37,6 +43,8 @@ public class DataSourceTest {
 			while(resultSet.next()){
 				System.out.println(resultSet.getLong("id") + " " +  resultSet.getString("username") + " " + resultSet.getString("password"));
 			}
+			
+			System.out.println(userService);
 		 
 		} catch (SQLException e) {
 			e.printStackTrace();
