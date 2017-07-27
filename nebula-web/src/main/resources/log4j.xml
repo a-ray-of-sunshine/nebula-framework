@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE log4j:configuration SYSTEM "https://raw.githubusercontent.com/apache/log4j/log4j-1.2.17/src/main/resources/org/apache/log4j/xml/log4j.dtd">
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "https://raw.githubusercontent.com/apache/log4j/log4j-1.2.17/src/main/resources/org/apache/log4j/xml/log4j.dtd">
 <log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
 
 	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
