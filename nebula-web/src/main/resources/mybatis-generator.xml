@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC
+    "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+    "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+    
+<generatorConfiguration>
+
+    <properties resource="jdbc.properties"/>
+
+    <context id="generator" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/> 
+        </commentGenerator>
+        <jdbcConnection driverClass="${jdbc.driverClass}"
+                connectionURL="${jdbc.jdbcUrl}"
+                userId="${jdbc.user}"
+                password="${jdbc.password}">
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="test.model" targetProject="D:\workspace\nebula-framework\nebula-web\src\test\java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="test.xml"  targetProject="D:\workspace\nebula-framework\nebula-web\src\test\java">
+          <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="test.dao"  targetProject="D:\workspace\nebula-framework\nebula-web\src\test\java">
+          <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <table tableName="sys_user"></table>
+        
+    </context>
+
+
+</generatorConfiguration>
