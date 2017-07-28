@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
-		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd">
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd">
+
 	<!-- 启用 ${...} 配置 -->
 	<context:property-placeholder location="classpath:jdbc.properties"/>
+	<context:component-scan base-package="com.cxy.service.impl" name-generator="org.springframework.beans.factory.support.DefaultBeanNameGenerator"></context:component-scan>
 	
 	<!-- 引入数据源 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
@@ -17,27 +21,18 @@
 		<property name="password" value="${jdbc.password}"/>
 	</bean>
 	
-<!-- 	<mybatis:scan base-package="com.cxy.dao"/> -->
-<!--     <bean class="org.apache.ibatis.session.defaults.DefaultSqlSessionFactory"> -->
-<!--         <property name="configuration"> -->
-<!--             <bean class="org.apache.ibatis.session.Configuration"> -->
-<!--                 <property name="environment"> -->
-<!--                     <bean class="org.apache.ibatis.mapping.Environment"> -->
-<!--                         <property name="dataSource" ref="dataSource"/>  -->
-<!--                     </bean>  -->
-<!--                 </property> -->
-<!--                 <property name="loadedResources" value="classpath:sqlmapper/*.xml"/>  -->
-<!--             </bean>  -->
-<!--         </property>  -->
-<!--     </bean> -->
-<!-- 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"> -->
-<!--         <property name="basePackage" value="com.cxy.dao" /> -->
-<!--     </bean> -->
-
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="mapperLocations" value="classpath*:sqlmapper/*.xml" />
+        <property name="mapperLocations" value="classpath:sqlmapper/*.xml"></property>
     </bean>
+    <!-- 自动扫描 com.cxy.dao 包下的接口，为其生成代理类 -->
+    <mybatis:scan base-package="com.cxy.dao" name-generator="org.springframework.beans.factory.support.DefaultBeanNameGenerator"/>
+
+    <!-- 初始化数据源 -->
+    <jdbc:initialize-database data-source="dataSource">
+        <jdbc:script location="classpath:sql/h2/schema.sql"/>
+        <jdbc:script location="classpath:sql/h2/data.sql"/>
+    </jdbc:initialize-database>
 
 	<import resource="applicationContext-plugin.xml"/>
 
