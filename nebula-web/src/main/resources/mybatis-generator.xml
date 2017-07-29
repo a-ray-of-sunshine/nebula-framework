@@ -17,22 +17,19 @@
                 password="${jdbc.password}">
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="test.model" targetProject="D:\workspace\nebula-framework\nebula-web\src\test\java">
+        <javaModelGenerator targetPackage="test.model" targetProject="src\test\java">
             <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="test.xml"  targetProject="D:\workspace\nebula-framework\nebula-web\src\test\java">
+        <sqlMapGenerator targetPackage="test.xml"  targetProject="src\test\java">
           <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="test.dao"  targetProject="D:\workspace\nebula-framework\nebula-web\src\test\java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="test.dao"  targetProject="src\test\java">
           <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <table tableName="sys_user"></table>
-        
     </context>
-
 
 </generatorConfiguration>

@@ -27,12 +27,13 @@
     </bean>
     <!-- 自动扫描 com.cxy.dao 包下的接口，为其生成代理类 -->
     <mybatis:scan base-package="com.cxy.dao" name-generator="org.springframework.beans.factory.support.DefaultBeanNameGenerator"/>
+    <bean class="com.cxy.tools.GenerateDao"/>
 
     <!-- 初始化数据源 -->
-    <jdbc:initialize-database data-source="dataSource">
-        <jdbc:script location="classpath:sql/h2/schema.sql"/>
-        <jdbc:script location="classpath:sql/h2/data.sql"/>
-    </jdbc:initialize-database>
+<!--     <jdbc:initialize-database data-source="dataSource"> -->
+<!--         <jdbc:script location="classpath:sql/h2/schema.sql"/> -->
+<!--         <jdbc:script location="classpath:sql/h2/data.sql"/> -->
+<!--     </jdbc:initialize-database> -->
 
 	<import resource="applicationContext-plugin.xml"/>
 
