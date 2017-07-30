@@ -9,6 +9,11 @@ public class PageController {
 
 	@RequestMapping("main")
 	public void main(){
-		System.out.println("main");
+	    System.out.println("main");
+	}
+	
+	
+	public void test(){
+	    System.out.println("nihao");
 	}
 }

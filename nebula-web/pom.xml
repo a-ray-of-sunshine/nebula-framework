@@ -13,6 +13,10 @@
 	<name>nebula-web Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
+    <properties>
+        <tomcat.version>7.0.79</tomcat.version>
+    </properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -71,7 +75,6 @@
     		<groupId>com.h2database</groupId>
     		<artifactId>h2</artifactId>
     		<version>1.4.196</version>
-    		<scope>test</scope>
 		</dependency>
 			
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
@@ -116,7 +119,14 @@
             <artifactId>jaxen</artifactId>
             <version>1.1.6</version>
         </dependency>
-
+        
+        <dependency>
+            <groupId>com.nebula</groupId> 
+            <artifactId>nebula-core</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        
 	</dependencies>
 
 	<build>
@@ -147,6 +157,9 @@
           		<groupId>org.apache.tomcat.maven</groupId>
           		<artifactId>tomcat7-maven-plugin</artifactId>
           		<version>2.2</version>
+          		<configuration>
+          	         <path>/</path>	
+          		</configuration>
        		</plugin>
 		</plugins>
 	</build>
