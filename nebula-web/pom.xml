@@ -49,11 +49,6 @@
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-		<!-- 这个桥将引入 slf4j-log4j12 和 log4 这两个包 -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
 		<dependency>
@@ -126,7 +121,6 @@
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
-        
 	</dependencies>
 
 	<build>
