@@ -4,7 +4,8 @@
 
 	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="[%-5p] %d{HH:mm:ss} %x %m -> %l%n" />
+<!-- 			<param name="ConversionPattern" value="[%-5p] %d{HH:mm:ss} %m (%l)%n" /> -->
+			<param name="ConversionPattern" value="[%-5p] %d{HH:mm:ss} %t - %l%n%m%n%n" />
 		</layout>
 
 		<!--限制输出级别 -->
@@ -29,6 +30,15 @@
 	<logger name="org.springframework.beans.factory.xml">
 		<level value="INFO"></level>
 	</logger>
+
+	<logger name="org.apache.tomcat">
+		<level value="INFO"></level>
+	</logger>
+
+	<logger name="org.apache.catalina">
+		<level value="INFO"></level>
+	</logger>
+
 
 	<root>
 		<priority value="INFO" />
