@@ -49,11 +49,7 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
+			<!-- 这个依赖将引入  slf4j-api 和 log4j -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
@@ -63,53 +59,4 @@
 
 	</dependencyManagement>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.10</version>
-				<configuration>
-					<downloadSources>true</downloadSources>
-					<downloadJavadocs>true</downloadJavadocs>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>3.0.1</version>
-				<executions>
-					<execution>
-						<id>src-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<!-- use copy-dependencies instead if you don't want to explode the 
-								sources -->
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<classifier>sources</classifier>
-							<outputDirectory>${project.build.directory}/sources</outputDirectory>
-						</configuration>
-					</execution>
-
-					<execution>
-						<id>lib-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<!-- use copy-dependencies instead if you don't want to explode the 
-								sources -->
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/lib</outputDirectory>
-						</configuration>
-					</execution>
-
-				</executions>
-			</plugin>
-
-		</plugins>
-	</build>
 </project>
