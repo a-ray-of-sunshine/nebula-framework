@@ -19,9 +19,9 @@ public class Main {
         // IServerFactory serverFactory = new JettyFactory();
         IServerFactory serverFactory = new TomcatFactory();
         IServer server = serverFactory.createServer(config);
-        
+       
         server.start();
+       
     }
-
-  
+ 
 }
