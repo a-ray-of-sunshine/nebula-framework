@@ -39,7 +39,7 @@ public class Tomcat implements IServer {
         System.setProperty(Constants.SKIP_JARS_PROPERTY, "*.jar");
 
         // 2. 创建 work 目录，用来存储 jsp 编译后的文件
-        File f = new File("target/tomcat/");
+        File f = new File("target/tomcat.work/");
         f.mkdirs();
         System.setProperty("catalina.base", f.getAbsolutePath());
     }
