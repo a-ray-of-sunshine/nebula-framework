@@ -68,7 +68,7 @@ public class XMLPropertyTokensParser {
         try {
             String line ;
             while(null != (line = br.readLine())){
-                if(line.contains("$")) {
+                if(line.contains(TOKEN_TAG)) {
                    line = parseProperties(line); 
                 }
                 cache.write(line);
