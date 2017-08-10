@@ -3,6 +3,9 @@ package com.nebula.utils;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -38,14 +41,13 @@ public class XMLPropertyTokensParser {
     public XMLPropertyTokensParser(String propertyName){
         this(propertyName, null);
     }
-
+    
     public XMLPropertyTokensParser(String propertyName, Properties exProperties){
         initLoader();
         
         URL url = resourceLoader.getResource(propertyName);
         if(null != url){
             try {
-
                 InputStream stream = url.openStream();
                 configurationProperties = new Properties();
                 configurationProperties.load(stream);
@@ -61,19 +63,42 @@ public class XMLPropertyTokensParser {
         }
     }
     
-    public InputStream parseTokens(InputStream stream) {
+    public InputStream parse(String resourceName) {
+       InputStream res = null;
+       try {
+           InputStream stream = resourceLoader.getResource(resourceName).openStream();
+           res = parse(stream);
+           stream.close();
+       } catch (IOException e) {
+           log.warn("读取资源失败，请检查 {}", resourceName);
+       }
+       return res;
+    }
+    
+    public InputStream parse(File file) {
+       InputStream res = null;
+       try {
+           res = parse(new FileInputStream(file));
+       } catch (FileNotFoundException e) {
+           log.warn("资源不存在，请检查 {}", file.getAbsolutePath());
+       }
+       return res;
+    }
+    
+    public InputStream parse(InputStream stream) {
         BufferedReader br = new BufferedReader(new InputStreamReader(stream));
         StringWriter source = new StringWriter(1024);
         BufferedWriter cache = new BufferedWriter(source, 512);
         try {
             String line ;
             while(null != (line = br.readLine())){
-                if(line.contains("$")) {
+                if(line.contains(TOKEN_TAG)) {
                    line = parseProperties(line); 
                 }
                 cache.write(line);
                 cache.newLine();
             }
+            cache.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -96,7 +121,7 @@ public class XMLPropertyTokensParser {
         token = token.substring(token.indexOf(START_TAG) + 1, token.indexOf(END_TAG)).trim();
         String property = configurationProperties.getProperty(token);
         if(null == property){
-           log.warn("Token resovle fail. can't find token: {}" + token); 
+           log.warn("Token resovle fail. can't find token: {}", token); 
            property = token;
         }
         return property;

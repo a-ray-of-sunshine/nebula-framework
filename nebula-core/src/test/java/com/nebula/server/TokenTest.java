@@ -1,7 +1,6 @@
 package com.nebula.server;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,8 +18,7 @@ public class TokenTest {
     public void test1() throws IOException{
         
         XMLPropertyTokensParser parser = new XMLPropertyTokensParser("jdbc.properties");
-        URL url = Thread.currentThread().getContextClassLoader().getResource("hibernate.cfg.xml");
-        parser.parseTokens(url.openStream());
+        parser.parse("hibernate.cfg.xml");
     }
 
     // @Test

@@ -1,6 +1,8 @@
 package com.cxy.test;
 
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
@@ -28,6 +30,8 @@ public class AutoCreatTableTest extends SpringContext{
     public void test1(){
         
         ServiceRegistry standardRegistry = new StandardServiceRegistryBuilder().configure().build();
+        // Map settings = new HashMap();
+        // ServiceRegistry standardRegistry = new StandardServiceRegistryBuilder().applySettings(settings ).build();
 
         MetadataSources metadataSources = new MetadataSources(standardRegistry);
         metadataSources.addAnnotatedClass(User.class);
