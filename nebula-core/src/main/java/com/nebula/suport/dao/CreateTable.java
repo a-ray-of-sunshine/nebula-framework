@@ -1,10 +1,14 @@
 package com.nebula.suport.dao;
 
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import javax.persistence.Entity;
 
+import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -13,6 +17,8 @@ import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.hibernate.tool.schema.TargetType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.nebula.utils.ResourceLoader;
 
 /**
  * 使用 SchemaExport 创建 Entity 注解的 实体类的表
@@ -24,54 +30,82 @@ public class CreateTable {
 
     private ServiceRegistry standardRegistry;
     private SchemaExport export;
-    
+    private MetadataSources metadataSources;
+
     public CreateTable(){
+        init(loadSettings());
+    }
+
+    @SuppressWarnings("rawtypes")
+    public CreateTable(Map settings){
+        init(settings);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private void init(Map settings) {
         // TODO:: 优化 hibernate.cfg.xml 的创建
-        // 最好做到让合适的人不用编写这个文件
-        standardRegistry = new StandardServiceRegistryBuilder().configure().build();
-        export =  new SchemaExport();;
+        StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
+        registryBuilder.applySettings(settings);
+        standardRegistry = registryBuilder.build();
+        metadataSources = new MetadataSources(standardRegistry);
+        export =  new SchemaExport();
     }
     
-    public void createByEntityNames(List<String> entityNames){
+    public void addByEntityNames(List<String> entityNames){
        for(String entityName : entityNames){
-           create(entityName);
+           add(entityName);
        }
     }
     
-    public void createByEntityClazzs(List<Class> clazzs){
+    @SuppressWarnings("rawtypes")
+    public void addByEntityClazzs(List<Class> clazzs){
         for(Class clazz : clazzs){
-            create(clazz);
+            add(clazz);
         }
     }
     
-    public void create(String entityName){
+    public void add(String entityName){
         Class<?> entityClazz = null;
         try {
-            entityClazz = CreateTable.class.forName(entityName);
+            entityClazz = Class.forName(entityName);
         } catch (ClassNotFoundException e) {
             log.error("无法载入类: ", entityName);
         }
-        create(entityClazz);
+        add(entityClazz);
     }
 
-    public void create(Class entityClazz){
+    @SuppressWarnings("rawtypes")
+    public void add(Class entityClazz){
         if(validateClass(entityClazz)){
-            MetadataSources metadataSources = new MetadataSources(standardRegistry);
             metadataSources.addAnnotatedClass(entityClazz);
-            doCreate(metadataSources);
         }
     }
     
+    public void create(){
+        Metadata metadata = metadataSources.buildMetadata();
+        SessionFactory sessionFactory = metadata.buildSessionFactory();
+        export.create(EnumSet.of(TargetType.DATABASE), metadata);
+        sessionFactory.close();
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private boolean validateClass(Class entityClazz) {
         return entityClazz.getAnnotation(Entity.class) != null;
     }
 
-    private void doCreate(MetadataSources metadataSources){
-
-        Metadata metadata = metadataSources.buildMetadata();
-        metadata.buildSessionFactory();
-        
-        export.create(EnumSet.of(TargetType.DATABASE), metadata);
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private Map loadSettings() {
+        Properties properties = ResourceLoader.loadAsProperties("jdbc.properties");
+        Map settings = new HashMap();
+        settings.put("hibernate.connection.driver_class", properties.get("jdbc.driverClass"));
+        settings.put("hibernate.connection.url", properties.get("jdbc.jdbcUrl"));
+        settings.put("hibernate.connection.username", properties.get("jdbc.user"));
+        settings.put("hibernate.connection.password", properties.get("jdbc.password"));
+        settings.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        settings.put("hibernate.show_sql",true);
+        settings.put("hibernate.format_sql",true);
+        settings.put("hibernate.connection.pool_size", 1);
+        return settings;
     }
-    
+   
 }
