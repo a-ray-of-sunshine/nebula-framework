@@ -7,7 +7,11 @@
 
     <properties resource="jdbc.properties"/>
 
-    <context id="generator" targetRuntime="MyBatis3">
+    <context id="generator" targetRuntime="MyBatis3Simple">
+    
+        <!-- org.mybatis.generator.api.Plugin -->
+<!--         <plugin type="" /> -->
+
         <commentGenerator>
             <property name="suppressAllComments" value="true"/> 
         </commentGenerator>
@@ -30,8 +34,7 @@
           <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
         
-        <table tableName="" enableSelectByPrimaryKey="false"
-                            enableSelectByExample="false">
+        <table tableName="" enableSelectByExample="false">
         </table>
 
     </context>
