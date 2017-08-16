@@ -1,6 +1,5 @@
 package com.cxy.test;
 
-import java.nio.channels.SeekableByteChannel;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,10 +19,12 @@ import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cxy.dao.IUserDao;
+import com.cxy.entity.Permission;
 import com.cxy.entity.Role;
 import com.cxy.entity.User;
 import com.nebula.suport.dao.CreateTable;
 import com.nebula.utils.ResourceLoader;
+import com.nebula.utils.TableAndDAOGenerator;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AutoCreatTableTest /*extends SpringContext*/{
@@ -62,7 +63,7 @@ public class AutoCreatTableTest /*extends SpringContext*/{
     }
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Test
+    // @Test
     public void test3(){
         Properties properties = ResourceLoader.loadAsProperties("jdbc.properties");
         Map setting = new HashMap();
@@ -71,6 +72,11 @@ public class AutoCreatTableTest /*extends SpringContext*/{
         CreateTable ct = new CreateTable(setting);
         ct.add(User.class);
         ct.create();
+    }
+    
+    @Test
+    public void test4(){
+       TableAndDAOGenerator.generate(Permission.class); 
     }
     
 }

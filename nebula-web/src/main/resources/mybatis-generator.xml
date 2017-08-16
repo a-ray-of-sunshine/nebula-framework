@@ -29,6 +29,10 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="test.dao"  targetProject="src\test\java">
           <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
+        
+        <table tableName="" enableSelectByPrimaryKey="false"
+                            enableSelectByExample="false">
+        </table>
 
     </context>
 

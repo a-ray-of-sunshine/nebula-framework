@@ -64,19 +64,24 @@ public class GenerateDAO {
         doc = reader.read(ResourceLoader.loadAsXML("mybatis-generator.xml"));
         List selectNodes = doc.selectNodes("/generatorConfiguration/context");
         if(CollectionUtils.isNotEmpty(selectNodes)) {
-            Element o = (Element) selectNodes.get(0);
-           
+            Element context = (Element) selectNodes.get(0);
+
+            Element context_talbe = context.element("table");
+            Element table_clone = context_talbe.createCopy();
+            context.remove(context_talbe);
+
             // 添加表名
-            for(String table : tables) {
-                Element element = DocumentHelper.createElement("table");
-                element.addAttribute("tableName", table);
-                o.add(element );
+            for(String tableName : tables) {
+                // Element element = DocumentHelper.createElement("table");
+                Element table = table_clone.createCopy();
+                table.addAttribute("tableName", tableName);
+                context.add(table);
            }
             
             // 添加项目路径
-            addProjectLocation("javaModelGenerator", o);
-            addProjectLocation("sqlMapGenerator", o);
-            addProjectLocation("javaClientGenerator", o);
+            addProjectLocation("javaModelGenerator", context);
+            addProjectLocation("sqlMapGenerator", context);
+            addProjectLocation("javaClientGenerator", context);
             
        }
         
